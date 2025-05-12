@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="display" class="form-control" type="text">
+                    <button id="random" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="display2"class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                                <div id="abc"class="button">7</div>
+                                <div class="button">8</div>
+                                <div class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button">4</div>
+                                <div class="button">5</div>
+                                <div class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button">1</div>
+                                <div class="button">2</div>
+                                <div class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div id="oneback"class="button">&lt;</div>
+                                <div class="button">0</div>
+                                <div id="remove" class="button">C</div>
+                            </div>
+                            <div>
+                                <button id="submit" type="submit" class="submit-btn">Submit</button>
+                                <p class="action-left">3 try left</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id="dontmatch"class="notify" style="display:none;">❌ Pin Didn't Match, Please try again</p>
+            <p id="match" class="notify" style="display:none;">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+    <script>
+        let random4Digit;  // Declare random4Digit globally to make it accessible to both functions
+
+        document.getElementById("random").addEventListener("click", function() {
+            random4Digit = Math.floor(Math.random() * 9000) + 1000;
+            document.getElementById("display").value = random4Digit;
+        });
+
+        let clickedValue = "";  // Declare clickedValue to store the clicked number
+
+        document.querySelectorAll(".button").forEach(function(button) {
+            button.addEventListener("click", function() {
+                // Concatenate the clicked number to clickedValue
+                clickedValue += this.innerText;
+
+                // Display the updated value in the input field
+                document.getElementById("display2").value = clickedValue;
+            });
+        });
+
+        document.getElementById("submit").addEventListener("click", function() {
+            // Check if the entered value matches the random value
+            if (random4Digit == clickedValue) {
+                // Hide the "Pin Didn't Match" message and show the success message
+                document.getElementById("dontmatch").style.display = "none";
+                document.getElementById("match").style.display = "block";
+            } else {
+                // Show the "Pin Didn't Match" message and hide the success message
+                document.getElementById("dontmatch").style.display = "block";
+                document.getElementById("match").style.display = "none";
+            }
+        });
+        document.getElementById("remove").addEventListener("click", function () {
+    clickedValue = ""; // Clear the stored value
+    document.getElementById("display2").value = ""; // Clear the input field
+});
+
+document.getElementById("oneback").addEventListener("click", function () {
+    clickedValue = clickedValue.slice(0, -1); // Remove last character
+    document.getElementById("display2").value = clickedValue; // Update input
+});
+
+
+    </script>
+</body>
+</html>
